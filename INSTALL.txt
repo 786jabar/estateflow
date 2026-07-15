@@ -1,0 +1,52 @@
+EstateFlow - installation notes
+===============================
+
+These are my notes for putting the site on cPanel hosting.
+
+1) Back up first
+----------------
+In cPanel File Manager, compress the old project_realstate folder to a zip
+and keep it somewhere safe. Also export the database from phpMyAdmin
+(Export -> Quick -> Go) in case something goes wrong.
+
+2) Database
+-----------
+If this is a fresh install, create the database in cPanel (MySQL Databases),
+then import DATABASE_SCHEMA.sql in phpMyAdmin.
+
+If upgrading from an older version, run UPGRADE.sql once in phpMyAdmin
+(SQL tab, paste, Go). This makes the password column bigger so the new
+bcrypt password hashes fit. Old users can still log in - their password
+gets re-hashed automatically the first time they sign in.
+
+3) connect.php
+--------------
+Open components/connect.php and check the four values at the top match
+your cPanel database name, user and password. Remember the cPanel prefix
+(like estauequ_).
+
+4) Upload
+---------
+Upload the whole project_realstate folder into public_html and overwrite
+the old files. Folders should be 755 and php files 644.
+
+5) HTTPS
+--------
+cPanel -> SSL/TLS Status -> tick the domain -> Run AutoSSL.
+Then turn on Force HTTPS Redirect under Domains.
+
+6) Test
+-------
+Open the site in a private window and check:
+- home page loads with the Australian design
+- register a new account, log out, log back in
+- post a property with a photo
+- edit the property from the dashboard
+- search with the filters
+- terms and privacy pages open from the footer
+
+Problems
+--------
+"Database connection failed" - check the four values in connect.php.
+White page - look in the cPanel Error Log, usually a typo in connect.php.
+Old design showing - hard refresh with Ctrl+Shift+R.
