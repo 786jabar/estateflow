@@ -1,0 +1,12 @@
+# Block PHP/script execution inside upload folder — critical security control
+  <FilesMatch "\.(php|phtml|phps|pl|py|jsp|asp|sh|cgi)$">
+      Require all denied
+  </FilesMatch>
+
+  # Only allow image MIME types to be served
+  <FilesMatch "\.(jpg|jpeg|png|gif|webp|svg)$">
+      Require all granted
+  </FilesMatch>
+
+  Options -ExecCGI -Indexes
+  

@@ -8,7 +8,7 @@
 $DB_HOST = 'localhost';
 $DB_NAME = 'estateflow';
 $DB_USER = 'root';
-$DB_PASS = 'YOUR_PASSWORD_HERE';
+$DB_PASS = '';
 
 /* my local testing setup - set ESTATEFLOW_LOCAL=1 to test on my laptop
    before uploading to cpanel. leave it unset on the live server */

@@ -351,7 +351,7 @@ body{font-family:'Inter',sans-serif;margin:0;background:#0a1628;color:#fff;overf
             <div class="ef-prop-meta">
                <span><i class="fas fa-bed"></i> <?= htmlspecialchars($p['bedroom']); ?> bed</span>
                <span><i class="fas fa-bath"></i> <?= htmlspecialchars($p['bathroom']); ?> bath</span>
-               <span><i class="fas fa-ruler-combined"></i> <?= htmlspecialchars($p['carpet']); ?> sqft</span>
+               <span><i class="fas fa-ruler-combined"></i> <?= htmlspecialchars($p['carpet']); ?> m²</span>
             </div>
             <div class="ef-prop-actions">
                <a href="view_property.php?get_id=<?= htmlspecialchars($p['id']); ?>" class="ef-prop-btn-outline">View</a>
