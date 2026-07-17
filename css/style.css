@@ -479,3 +479,73 @@ body[style*="padding-left: 0"],body[style*="padding-left:0"]{padding-left:0!impo
 
 /* Empty state */
 .empty-state{text-align:center;padding:3rem;color:#64748b;width:100%;grid-column:1/-1;}
+
+/* =================================================================
+   Design polish pass — consistency, depth and whitespace
+   Research refs: hero/search prominence and card structure patterns
+   observed on major Australian property portals.
+   ================================================================= */
+
+/* Unified corner radius across cards, buttons and inputs */
+:root{--radius:14px;--radius-sm:10px;}
+.prop-card,.service-card,.dashboard .box,.form-container form,.auth-card,
+.property-form form,.legal-content,.search-card,.filters,.filters form{border-radius:var(--radius);}
+.btn-primary,.btn-outline,.btn-accent,.btn,.inline-btn{border-radius:var(--radius-sm);}
+.field input,.field select,.auth-form input,.form-container input,.form-container select,
+.form-container textarea,.property-form .box{border-radius:var(--radius-sm);}
+.prop-badge{border-radius:30px;}
+.prop-media{border-radius:var(--radius) var(--radius) 0 0;}
+
+/* Card hover: lift + gold edge highlight */
+.prop-card:hover,.box-container > form:hover,.box-container > .box:hover{
+   transform:translateY(-8px);
+   box-shadow:0 24px 55px rgba(10,22,40,.16),0 0 0 1px rgba(201,169,97,.45);
+}
+
+/* More whitespace between page sections */
+.listings,.services{padding:9rem 0;}
+.page-hero{padding:6.5rem 0 4.5rem;}
+.page-hero h1{font-size:3.6rem;letter-spacing:-.02em;}
+.page-hero::after{content:'';display:block;width:56px;height:3px;background:#B8935A;margin:1.8rem auto 0;border-radius:2px;}
+
+/* Filter bar polish */
+.filter-bar{padding:1.4rem 1.6rem;border-radius:var(--radius);align-items:center;border:1px solid var(--line);box-shadow:var(--shadow-sm);}
+.filter-bar select{padding:.9rem 1.2rem;min-width:160px;}
+.filter-bar select:focus{border-color:#B8935A;}
+
+/* Property detail page upgrade */
+.property-detail{padding:5rem 0 7rem;background:var(--bg-soft);}
+.property-detail .container{gap:4rem;align-items:start;}
+.gallery-main{height:460px;border-radius:var(--radius);box-shadow:var(--shadow);}
+.gallery-thumbs{gap:.8rem;margin-top:.9rem;}
+.gallery-thumbs img{width:96px;height:70px;border-radius:8px;border:2px solid transparent;transition:all .25s var(--ease);}
+.gallery-thumbs img:hover{opacity:1;transform:translateY(-2px);}
+.gallery-thumbs img.active{opacity:1;border-color:#B8935A;}
+.property-info{background:#fff;border-radius:var(--radius);padding:3rem;box-shadow:var(--shadow-sm);border:1px solid var(--line);}
+.property-info h1{font-family:'Playfair Display',serif;font-size:3rem;color:var(--primary);margin:.8rem 0 .4rem;line-height:1.15;}
+.property-info .prop-price{color:var(--primary);}
+.property-info .section-heading{text-align:left;font-size:2rem;margin:2.6rem 0 1rem;padding-bottom:.8rem;border-bottom:1px solid var(--line);}
+.amenity{background:#fff;border:1px solid var(--line);padding:.7rem 1.4rem;transition:all .2s var(--ease);}
+.amenity:hover{border-color:#B8935A;background:#fdf9f2;}
+.seller-card{border:1px solid var(--line);background:#fdfcf9;}
+.action-form{position:sticky;bottom:1.2rem;background:#fff;padding:1.2rem;border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid var(--line);}
+.action-form .btn-primary,.action-form .btn-outline{flex:1;border-radius:var(--radius-sm);}
+
+/* Empty state polish */
+.empty,.empty-state{border-radius:var(--radius);border:1.5px dashed #d8cfbc;background:#fdfcf9;}
+
+/* Focus visibility for keyboard users */
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid #B8935A;outline-offset:2px;}
+
+/* Mobile refinements */
+@media (max-width:768px){
+   .gallery-main{height:280px;}
+   .property-info{padding:2rem;}
+   .filter-bar select{min-width:0;flex:1;}
+   .prop-actions{grid-template-columns:1fr 1fr;}
+   .page-hero h1{font-size:2.8rem;}
+}
+
+/* Detail page: anchor badge inside info card */
+.property-info{position:relative;}
+.property-info .prop-badge{position:static;display:inline-block;margin-bottom:.6rem;}

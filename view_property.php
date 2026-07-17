@@ -46,11 +46,12 @@ foreach (['lift'=>'Lift','security_guard'=>'Security','play_ground'=>'Playground
    <div class="container">
 
       <div class="property-gallery">
-         <img src="uploaded_files/<?= htmlspecialchars($p['image_01'] ?? ''); ?>" alt="" class="gallery-main">
+         <img src="uploaded_files/<?= htmlspecialchars($images ? reset($images) : ''); ?>" alt="" class="gallery-main">
          <div class="gallery-thumbs">
-         <?php foreach ($images as $img): ?>
-            <img src="uploaded_files/<?= htmlspecialchars($img); ?>" alt="" onclick="document.querySelector('.gallery-main').src=this.src">
-         <?php endforeach; ?>
+         <?php $first = true; foreach ($images as $img): ?>
+            <img src="uploaded_files/<?= htmlspecialchars($img); ?>" alt="" class="<?= $first ? 'active' : ''; ?>"
+                 onclick="document.querySelector('.gallery-main').src=this.src;document.querySelectorAll('.gallery-thumbs img').forEach(t=>t.classList.remove('active'));this.classList.add('active');">
+         <?php $first = false; endforeach; ?>
          </div>
       </div>
 

@@ -31,43 +31,40 @@ if (isset($_POST['submit'])) {
       }
    }
 }
+$admin_name = 'Admin';
+try {
+   $a = $conn->prepare("SELECT name FROM `admins` WHERE id = ? LIMIT 1");
+   $a->execute([$admin_id]);
+   $r = $a->fetch(PDO::FETCH_ASSOC);
+   if ($r) $admin_name = $r['name'];
+} catch (Exception $e) {}
+
+$ef_page_title = 'Add Admin'; include '_layout_top.php';
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-   <meta charset="UTF-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Add Admin &mdash; EstateFlow</title>
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-   <link rel="stylesheet" href="../css/style.css">
-</head>
-<body>
+<div class="card form-narrow">
+   <h2>Add a new admin</h2>
+   <p class="muted-note" style="margin:0 0 20px;">Create another administrator for the EstateFlow panel.</p>
 
-<?php include '../components/admin_header.php'; ?>
-
-<section class="form-container">
-   <form action="" method="POST" class="auth-form">
-      <h3>Add a new admin</h3>
-      <p class="muted">Create another administrator for the EstateFlow panel.</p>
-
-      <label>Username</label>
-      <input type="text" name="name" required maxlength="30"
-             oninput="this.value=this.value.replace(/\s/g,'')" class="box" placeholder="e.g. jane">
-
-      <label>Password <span class="muted">(min. 8 characters)</span></label>
-      <input type="password" name="pass" required minlength="8" maxlength="80"
-             oninput="this.value=this.value.replace(/\s/g,'')" class="box" placeholder="Choose a strong password">
-
-      <label>Confirm password</label>
-      <input type="password" name="c_pass" required minlength="8" maxlength="80"
-             oninput="this.value=this.value.replace(/\s/g,'')" class="box" placeholder="Re-enter password">
-
-      <button type="submit" name="submit" class="btn-primary block">Create Admin</button>
+   <form action="" method="POST">
+      <div class="field">
+         <label>Username</label>
+         <input type="text" name="name" required maxlength="30"
+                oninput="this.value=this.value.replace(/\s/g,'')" class="box" placeholder="e.g. jane">
+      </div>
+      <div class="field">
+         <label>Password (min. 8 characters)</label>
+         <input type="password" name="pass" required minlength="8" maxlength="80"
+                oninput="this.value=this.value.replace(/\s/g,'')" class="box" placeholder="Choose a strong password">
+      </div>
+      <div class="field">
+         <label>Confirm password</label>
+         <input type="password" name="c_pass" required minlength="8" maxlength="80"
+                oninput="this.value=this.value.replace(/\s/g,'')" class="box" placeholder="Re-enter password">
+      </div>
+      <button type="submit" name="submit" class="btn btn-dark">Create Admin</button>
    </form>
-</section>
+</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
-<script src="../js/admin_script.js"></script>
 <?php include '../components/message.php'; ?>
-</body>
-</html>
+</main></div></body></html>

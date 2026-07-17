@@ -49,75 +49,64 @@ if ($search !== '') {
    $select_users = $conn->prepare("SELECT * FROM `users` ORDER BY name ASC");
    $select_users->execute();
 }
+$admin_name = 'Admin';
+try {
+   $a = $conn->prepare("SELECT name FROM `admins` WHERE id = ? LIMIT 1");
+   $a->execute([$admin_id]);
+   $r = $a->fetch(PDO::FETCH_ASSOC);
+   if ($r) $admin_name = $r['name'];
+} catch (Exception $e) {}
+
+$ef_page_title = 'Users'; include '_layout_top.php';
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-   <meta charset="UTF-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Users &mdash; EstateFlow Admin</title>
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-   <link rel="stylesheet" href="../css/style.css">
-</head>
-<body>
-
-<?php include '../components/admin_header.php'; ?>
-
-<section class="grid dashboard">
-
-   <div class="users-toolbar">
-      <h1 class="heading" style="text-align:left;margin:0;">Users</h1>
-      <a href="add_user.php" class="btn-accent">
-         <i class="fas fa-user-plus"></i>&nbsp; Add New User
-      </a>
+<div class="card">
+   <div class="toolbar-flex">
+      <h2 style="margin:0;">All Users (<?= $select_users->rowCount(); ?>)</h2>
+      <a href="add_user.php" class="btn"><i class="fas fa-user-plus"></i>&nbsp; Add New User</a>
    </div>
 
-   <form action="" method="POST" class="search-form filters" style="margin-top:2rem;">
-      <input type="text" name="search_box" placeholder="Search users by name, email or phone…"
-             maxlength="100" value="<?= htmlspecialchars($search); ?>" style="flex:1;min-width:240px;padding:1.2rem;border:1px solid var(--line);">
-      <button type="submit" class="btn-primary" name="search_btn">
-         <i class="fas fa-search"></i>&nbsp; Search
-      </button>
+   <form action="" method="POST" class="search-inline" style="margin-bottom:20px;">
+      <input type="text" name="search_box" class="box" placeholder="Search users by name, email or phone…"
+             maxlength="100" value="<?= htmlspecialchars($search); ?>">
+      <button type="submit" class="btn btn-dark" name="search_btn"><i class="fas fa-search"></i>&nbsp; Search</button>
+      <?php if ($search !== ''): ?><a href="users.php" class="btn">Reset</a><?php endif; ?>
    </form>
 
-   <div class="box-container">
-   <?php
-      if ($select_users->rowCount() > 0) {
-         while ($u = $select_users->fetch()) {
+   <?php if ($select_users->rowCount() > 0): ?>
+   <div style="overflow-x:auto;"><table>
+      <thead><tr>
+         <th>Name</th><th>Email</th><th>Phone</th><th>Properties</th><th>Action</th>
+      </tr></thead>
+      <tbody>
+      <?php while ($u = $select_users->fetch()):
             $cnt = $conn->prepare("SELECT id FROM `property` WHERE user_id = ?");
             $cnt->execute([$u['id']]);
             $total = $cnt->rowCount();
-   ?>
-      <div class="box">
-         <p><strong>Name:</strong> <span><?= htmlspecialchars($u['name']); ?></span></p>
-         <p><strong>Phone:</strong>
-            <a href="tel:<?= htmlspecialchars($u['number']); ?>"><?= htmlspecialchars($u['number']); ?></a></p>
-         <p><strong>Email:</strong>
-            <a href="mailto:<?= htmlspecialchars($u['email']); ?>"><?= htmlspecialchars($u['email']); ?></a></p>
-         <p><strong>Properties listed:</strong> <span><?= (int)$total; ?></span></p>
-         <form action="" method="POST" style="margin-top:1rem;">
-            <input type="hidden" name="delete_id" value="<?= htmlspecialchars($u['id']); ?>">
-            <button type="submit" name="delete" class="btn-outline"
-               onclick="return confirm('Delete this user and all their listings?');"
-               style="border-color:var(--danger);color:var(--danger);">
-               <i class="fas fa-trash"></i>&nbsp; Delete user
-            </button>
-         </form>
-      </div>
-   <?php
-         }
-      } elseif ($search !== '') {
-         echo '<p class="empty">No users match your search.</p>';
-      } else {
-         echo '<p class="empty">No user accounts yet. <a href="add_user.php" class="btn-primary" style="margin-left:1rem;">Add the first user</a></p>';
-      }
-   ?>
-   </div>
-
-</section>
+      ?>
+         <tr>
+            <td><strong><?= htmlspecialchars($u['name']); ?></strong></td>
+            <td><a href="mailto:<?= htmlspecialchars($u['email']); ?>"><?= htmlspecialchars($u['email']); ?></a></td>
+            <td><a href="tel:<?= htmlspecialchars($u['number']); ?>"><?= htmlspecialchars($u['number']); ?></a></td>
+            <td><span class="badge"><?= (int)$total; ?></span></td>
+            <td>
+               <form action="" method="POST" style="display:inline;">
+                  <input type="hidden" name="delete_id" value="<?= htmlspecialchars($u['id']); ?>">
+                  <button type="submit" name="delete" class="btn btn-danger btn-sm"
+                     onclick="return confirm('Delete this user and all their listings?');">
+                     <i class="fas fa-trash"></i>
+                  </button>
+               </form>
+            </td>
+         </tr>
+      <?php endwhile; ?>
+      </tbody></table></div>
+   <?php elseif ($search !== ''): ?>
+      <div class="empty"><i class="fas fa-search"></i><p>No users match your search.</p></div>
+   <?php else: ?>
+      <div class="empty"><i class="fas fa-users"></i><p>No user accounts yet. <a href="add_user.php">Add the first user</a></p></div>
+   <?php endif; ?>
+</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
-<script src="../js/admin_script.js"></script>
 <?php include '../components/message.php'; ?>
-</body>
-</html>
+</main></div></body></html>

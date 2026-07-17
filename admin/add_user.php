@@ -37,57 +37,55 @@ if (isset($_POST['submit'])) {
       }
    }
 }
+$admin_name = 'Admin';
+try {
+   $a = $conn->prepare("SELECT name FROM `admins` WHERE id = ? LIMIT 1");
+   $a->execute([$admin_id]);
+   $r = $a->fetch(PDO::FETCH_ASSOC);
+   if ($r) $admin_name = $r['name'];
+} catch (Exception $e) {}
+
+$ef_page_title = 'Add User'; include '_layout_top.php';
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-   <meta charset="UTF-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Add User &mdash; EstateFlow Admin</title>
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-   <link rel="stylesheet" href="../css/style.css">
-</head>
-<body>
+<div class="card form-narrow">
+   <h2>Add a new user profile</h2>
+   <p class="muted-note" style="margin:0 0 20px;">Create an EstateFlow account on behalf of a buyer, seller, agent or tenant.
+      Share the email and password with them so they can sign in.</p>
 
-<?php include '../components/admin_header.php'; ?>
+   <form action="" method="POST" autocomplete="off">
+      <div class="field">
+         <label>Full name *</label>
+         <input type="text" name="name" required maxlength="50" class="box" placeholder="Jane Smith">
+      </div>
+      <div class="field">
+         <label>Email *</label>
+         <input type="email" name="email" required maxlength="80" class="box" placeholder="jane@example.com">
+      </div>
+      <div class="field">
+         <label>Phone</label>
+         <input type="tel" name="number" maxlength="15" class="box" placeholder="+61 412 345 678">
+      </div>
+      <div class="field">
+         <label>Password * (min. 8 characters)</label>
+         <input type="text" name="pass" required minlength="8" maxlength="80" class="box"
+                placeholder="Set an initial password">
+      </div>
+      <div class="field">
+         <label>Confirm password *</label>
+         <input type="text" name="c_pass" required minlength="8" maxlength="80" class="box"
+                placeholder="Re-enter the password">
+      </div>
 
-<section class="form-container">
-   <form action="" method="POST" class="auth-form" autocomplete="off">
-      <h3>Add a new user profile</h3>
-      <p class="muted">Create an EstateFlow account on behalf of a buyer, seller, agent or tenant.
-         Share the email and password with them so they can sign in.</p>
-
-      <label>Full name *</label>
-      <input type="text" name="name" required maxlength="50" class="box" placeholder="Jane Smith">
-
-      <label>Email *</label>
-      <input type="email" name="email" required maxlength="80" class="box" placeholder="jane@example.com">
-
-      <label>Phone</label>
-      <input type="tel" name="number" maxlength="15" class="box" placeholder="+61 412 345 678">
-
-      <label>Password * <span class="muted">(min. 8 characters)</span></label>
-      <input type="text" name="pass" required minlength="8" maxlength="80" class="box"
-             placeholder="Set an initial password">
-
-      <label>Confirm password *</label>
-      <input type="text" name="c_pass" required minlength="8" maxlength="80" class="box"
-             placeholder="Re-enter the password">
-
-      <button type="submit" name="submit" class="btn-primary block">
+      <button type="submit" name="submit" class="btn btn-dark">
          <i class="fas fa-user-plus"></i>&nbsp; Create User Profile
       </button>
+      <a href="users.php" class="btn" style="margin-left:8px;">&laquo; Back to user list</a>
 
-      <p class="auth-foot">
-         &laquo; <a href="users.php">Back to user list</a>
-      </p>
-      <p class="legal-tiny">Tip: passwords are shown in plain text on this admin form so you can copy
+      <p class="muted-note">Tip: passwords are shown in plain text on this admin form so you can copy
          them. They are stored hashed in the database (bcrypt) and never visible again.</p>
    </form>
-</section>
+</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
-<script src="../js/admin_script.js"></script>
 <?php include '../components/message.php'; ?>
-</body>
-</html>
+</main></div></body></html>
