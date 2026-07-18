@@ -9,8 +9,10 @@ try{ $a=$conn->prepare("SELECT name FROM admins WHERE id=? LIMIT 1"); $a->execut
      $r=$a->fetch(PDO::FETCH_ASSOC); if($r) $admin_name=$r['name']; }catch(Exception $e){}
 
 $ok=''; $err='';
-if(isset($_GET['delete'])){
-   try{ $conn->prepare("DELETE FROM messages WHERE id=?")->execute([$_GET['delete']]); $ok='Message deleted.'; }catch(Exception $e){ $err=$e->getMessage(); }
+if(isset($_POST['delete_id'])){
+   if(ef_csrf_check()){
+      try{ $conn->prepare("DELETE FROM messages WHERE id=?")->execute([$_POST['delete_id']]); $ok='Message deleted.'; }catch(Exception $e){ $err='Could not delete the message. Please try again.'; }
+   } else { $err='Security check failed. Please try again.'; }
 }
 
 $rows=[]; $cols=[];
@@ -34,7 +36,11 @@ $ef_page_title='Messages'; include '_layout_top.php';
                      <div style="font-size:.88rem;color:#555;"><strong style="color:#0A1628;"><?= htmlspecialchars($c) ?>:</strong> <?= htmlspecialchars($r[$c] ?? '') ?></div>
                   <?php endforeach; ?>
                </div>
-               <a href="?delete=<?= urlencode($r['id']) ?>" class="btn btn-danger btn-sm" onclick="return confirm('Delete message?');"><i class="fas fa-trash"></i></a>
+               <form method="post" style="display:inline;" onsubmit="return confirm('Delete message?');">
+                  <?= ef_csrf_token() ?>
+                  <input type="hidden" name="delete_id" value="<?= htmlspecialchars($r['id']) ?>">
+                  <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+               </form>
             </div>
             <?php if(!empty($r['message'])): ?>
                <div style="margin-top:12px;padding:12px;background:#fafbfc;border-radius:8px;color:#333;line-height:1.6;"><?= nl2br(htmlspecialchars($r['message'])) ?></div>

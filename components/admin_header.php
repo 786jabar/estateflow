@@ -90,6 +90,8 @@ body{font-family:'Inter',sans-serif;color:#0A1628;}
       <a href="dashboard.php" class="<?= $current=='dashboard.php'?'active':'' ?>"><i class="fas fa-gauge-high"></i> Dashboard</a>
       <a href="listings.php" class="<?= $current=='listings.php'?'active':'' ?>"><i class="fas fa-building"></i> Listings</a>
       <a href="messages.php" class="<?= $current=='messages.php'?'active':'' ?>"><i class="fas fa-envelope"></i> Messages</a>
+      <a href="enquiries.php" class="<?= $current=='enquiries.php'?'active':'' ?>"><i class="fas fa-paper-plane"></i> Enquiries</a>
+      <a href="saved.php" class="<?= $current=='saved.php'?'active':'' ?>"><i class="fas fa-heart"></i> Saved</a>
    </nav>
    <div class="ef-nav-section">People</div>
    <nav class="ef-nav">

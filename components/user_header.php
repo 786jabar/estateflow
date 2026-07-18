@@ -35,6 +35,22 @@ body.ef-dark .ef-toggle::after{left:26px;background:#fff;}
 .ef-btn-primary:hover{background:#c9a961;border-color:#c9a961;}
 body.ef-dark{background:#050d18!important;color:#cdd5e0;}
 body.ef-dark .ef-nav,body.ef-dark .ef-topbar{background:#040a14;}
+/* Dark mode: darken white cards so light text stays readable */
+body.ef-dark .property-detail,body.ef-dark .listings,body.ef-dark .services{background:#050d18;}
+body.ef-dark .property-info,body.ef-dark .seller-card,body.ef-dark .amenity,
+body.ef-dark .prop-card,body.ef-dark .form-container form,body.ef-dark .auth-card,
+body.ef-dark .search-card,body.ef-dark .filter-bar,body.ef-dark .action-form,
+body.ef-dark .dashboard .box,body.ef-dark .service-card,body.ef-dark .legal-content{
+  background:#0b1626;border-color:#22304a;color:#cdd5e0;}
+body.ef-dark .property-info h1,body.ef-dark .section-heading,body.ef-dark .prop-title,
+body.ef-dark .view-property h3.name,body.ef-dark .service-card h3,
+body.ef-dark .prop-seller strong,body.ef-dark .seller-card strong{color:#e8ecf2;}
+body.ef-dark .section-heading{border-bottom-color:#22304a;}
+body.ef-dark .property-info .prop-price,body.ef-dark .prop-price{color:#c9a961;}
+body.ef-dark .amenity{background:#0b1626;}
+body.ef-dark .amenity:hover{background:#12203a;}
+body.ef-dark input,body.ef-dark select,body.ef-dark textarea{
+  background:#0b1626;border-color:#22304a;color:#cdd5e0;}
 .ef-menu-toggle{display:none;background:transparent;color:#B8935A;border:1px solid rgba(184,147,90,.3);padding:8px 12px;border-radius:6px;cursor:pointer;font-size:1.1rem;}
 @media(max-width:980px){
   .ef-menu-toggle{display:inline-flex;}

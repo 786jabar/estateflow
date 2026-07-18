@@ -6,17 +6,30 @@
 */
 
 $DB_HOST = 'localhost';
-$DB_NAME = 'estateflow';
-$DB_USER = 'root';
-$DB_PASS = '';
+$DB_NAME = 'estauequ_estateflow';
+$DB_USER = 'estauequ_estateflow';
+$DB_PASS = 'CHANGE_ME';
 
-/* my local testing setup - set ESTATEFLOW_LOCAL=1 to test on my laptop
-   before uploading to cpanel. leave it unset on the live server */
+/* XAMPP on my laptop uses different settings than the live cpanel server.
+   I detect localhost automatically so the same file works in both places. */
+$ef_host = $_SERVER['HTTP_HOST'] ?? '';
+$ef_is_xampp = ($ef_host === 'localhost' || str_starts_with($ef_host, 'localhost:')
+                || str_starts_with($ef_host, '127.0.0.1'));
+
 if (getenv('ESTATEFLOW_LOCAL')) {
+   /* local test environment */
    $dsn = "mysql:unix_socket=/tmp/mysql_run/mysqld.sock;dbname=estateflow;charset=utf8mb4";
    $DB_USER = 'root';
    $DB_PASS = '';
+} elseif ($ef_is_xampp) {
+   /* XAMPP local testing - change this name if your phpMyAdmin database
+      is called something different */
+   $DB_NAME_LOCAL = 'estateflow';
+   $dsn = "mysql:host=localhost;dbname={$DB_NAME_LOCAL};charset=utf8mb4";
+   $DB_USER = 'root';
+   $DB_PASS = '';
 } else {
+   /* live cpanel server */
    $dsn = "mysql:host={$DB_HOST};dbname={$DB_NAME};charset=utf8mb4";
 }
 
@@ -72,6 +85,21 @@ if (!empty($_SESSION['admin_id'])) {
 }
 
 /* ---------- Helpers ---------- */
+
+/* CSRF protection: every form that changes data must send this token.
+   ef_csrf_token() prints a hidden input, ef_csrf_check() validates it. */
+function ef_csrf_token() {
+   if (empty($_SESSION['csrf_token'])) {
+      $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+   }
+   return '<input type="hidden" name="csrf_token" value="' . $_SESSION['csrf_token'] . '">';
+}
+function ef_csrf_check() {
+   return $_SERVER['REQUEST_METHOD'] === 'POST'
+      && !empty($_SESSION['csrf_token'])
+      && hash_equals($_SESSION['csrf_token'], (string)($_POST['csrf_token'] ?? ''));
+}
+
 function create_unique_id() {
    return bin2hex(random_bytes(10)); // 20 hex chars
 }
