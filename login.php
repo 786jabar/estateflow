@@ -95,7 +95,8 @@ if (isset($_POST['submit'])) {
          <input type="password" name="pass" required maxlength="80" placeholder="Enter your password">
 
          <button type="submit" name="submit" class="btn-primary block">Sign In</button>
-         <p class="auth-foot" style="margin-top:1.6rem;">New to EstateFlow? <a href="register.php">Create an account</a></p>
+         <p class="auth-foot" style="margin-top:1.6rem;"><a href="forgot_password.php">Forgot your password?</a></p>
+         <p class="auth-foot" style="margin-top:0.6rem;">New to EstateFlow? <a href="register.php">Create an account</a></p>
       </form>
    </div>
 </section>

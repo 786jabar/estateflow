@@ -2,8 +2,24 @@
 include 'components/connect.php';
 $user_id = ef_user_id();
 $sent = false;
+$contact_err = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['contact_send'])) {
-   $sent = true; // For now just confirm receipt; integrate email later
+   $c_name    = trim((string)($_POST['c_name'] ?? ''));
+   $c_email   = trim((string)($_POST['c_email'] ?? ''));
+   $c_phone   = trim((string)($_POST['c_phone'] ?? ''));
+   $c_message = trim((string)($_POST['c_message'] ?? ''));
+
+   if ($c_name === '' || !filter_var($c_email, FILTER_VALIDATE_EMAIL) || $c_message === '') {
+      $contact_err = 'Please fill in your name, a valid email and a message.';
+   } else {
+      try {
+         $ins = $conn->prepare("INSERT INTO `messages`(id, name, email, number, message) VALUES (?,?,?,?,?)");
+         $ins->execute([create_unique_id(), $c_name, $c_email, $c_phone, $c_message]);
+         $sent = true;
+      } catch (Exception $e) {
+         $contact_err = 'Sorry, your message could not be saved. Please try again later.';
+      }
+   }
 }
 ?>
 <!DOCTYPE html>
@@ -50,6 +66,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['contact_send'])) {
          <h2 class="section-heading">Send a Message</h2>
          <?php if ($sent): ?>
             <div class="alert-success">Thanks &mdash; we'll be in touch within one business day.</div>
+         <?php elseif ($contact_err): ?>
+            <div class="msg" style="background:#fdecea;border-left:4px solid #c0392b;color:#7a1f17;padding:1.2rem 1.6rem;border-radius:6px;margin-bottom:1.2rem;"><?= htmlspecialchars($contact_err); ?></div>
          <?php endif; ?>
          <form method="POST" class="contact-form">
             <div class="field"><label>Your name</label><input type="text" name="c_name" required></div>
