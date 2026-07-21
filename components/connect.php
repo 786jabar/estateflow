@@ -17,7 +17,7 @@ $ef_is_xampp = ($ef_host === 'localhost' || str_starts_with($ef_host, 'localhost
                 || str_starts_with($ef_host, '127.0.0.1'));
 
 if (getenv('ESTATEFLOW_LOCAL')) {
-   /* local test environment */
+   /* optional local test environment */
    $dsn = "mysql:unix_socket=/tmp/mysql_run/mysqld.sock;dbname=estateflow;charset=utf8mb4";
    $DB_USER = 'root';
    $DB_PASS = '';
