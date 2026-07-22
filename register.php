@@ -38,7 +38,7 @@ if (isset($_POST['submit'])) {
             $_SESSION['user_id']   = $id;
             $_SESSION['user_name'] = $name;
 
-            header('location:home.php');
+            header('location:dashboard.php');
             exit;
          }
       } catch (PDOException $e) {

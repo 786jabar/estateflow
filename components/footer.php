@@ -46,6 +46,7 @@
          <a href="contact.php#faq">FAQ</a>
          <a href="terms.php">Terms of Service</a>
          <a href="privacy.php">Privacy Policy</a>
+         <a href="admin/login.php">Admin Login</a>
       </div>
       <div class="ef-col">
          <h4>Contact</h4>

@@ -52,7 +52,8 @@ $sel->execute($params);
             <option value="flat"  <?= $filter_type==='flat'?'selected':''; ?>>Flat</option>
             <option value="shop"  <?= $filter_type==='shop'?'selected':''; ?>>Shop / Commercial</option>
          </select>
-         <button type="submit" class="btn-primary"><i class="fas fa-filter"></i>&nbsp; Filter</button>
+         <button type="submit" class="btn-primary"><i class="fas fa-filter"></i>&nbsp; Apply Filters</button>
+         <a href="search.php" class="btn-outline" style="margin-left:.8rem;"><i class="fas fa-sliders-h"></i>&nbsp; Advanced Search</a>
          <a href="listings.php" class="btn-outline">Reset</a>
       </form>
 

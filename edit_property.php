@@ -84,10 +84,8 @@ if(isset($_POST['update'])){
          $imgs[0],$imgs[1],$imgs[2],$imgs[3],$imgs[4],$description,
          $pid,$user_id
       ]);
-      $ok = 'Listing updated successfully!';
-      // reload fresh values
-      $sel->execute([$pid, $user_id]);
-      $prop = $sel->fetch();
+      $_SESSION['message'] = ['text'=>'Listing updated successfully!','icon'=>'success'];
+      header('location:view_property.php?get_id='.urlencode($pid)); exit;
    }catch(Exception $e){
       $err = $e->getMessage();
    }
@@ -238,15 +236,15 @@ select.ef-input{cursor:pointer;appearance:none;background-image:url("data:image/
       </div>
       <div class="ef-row c3" style="margin-bottom:18px;">
          <div class="ef-field"><label>Bedrooms</label>
-            <select name="bedroom" class="ef-input"><?php for($i=0;$i<=9;$i++)echo "<option ".sel_if($prop['bedroom'],$i).">$i</option>";?></select></div>
+            <input type="number" name="bedroom" class="ef-input" value="<?= htmlspecialchars($prop['bedroom']); ?>" min="0" max="50"></div>
          <div class="ef-field"><label>Bathrooms</label>
-            <select name="bathroom" class="ef-input"><?php for($i=1;$i<=9;$i++)echo "<option ".sel_if($prop['bathroom'],$i).">$i</option>";?></select></div>
+            <input type="number" name="bathroom" class="ef-input" value="<?= htmlspecialchars($prop['bathroom']); ?>" min="1" max="50"></div>
          <div class="ef-field"><label>Balconies</label>
-            <select name="balcony" class="ef-input"><?php for($i=0;$i<=9;$i++)echo "<option ".sel_if($prop['balcony'],$i).">$i</option>";?></select></div>
+            <input type="number" name="balcony" class="ef-input" value="<?= htmlspecialchars($prop['balcony']); ?>" min="0" max="50"></div>
       </div>
       <div class="ef-row c3" style="margin-bottom:18px;">
-         <div class="ef-field"><label>BHK</label>
-            <select name="bhk" class="ef-input"><?php for($i=1;$i<=9;$i++)echo "<option ".sel_if($prop['bhk'],$i).">$i</option>";?></select></div>
+         <div class="ef-field"><label>Total Rooms <span class="hint">(bedrooms + living + kitchen)</span></label>
+            <input type="number" name="bhk" class="ef-input" value="<?= htmlspecialchars($prop['bhk']); ?>" min="1" max="50"></div>
          <div class="ef-field"><label>Carpet Area <span class="hint">(m²)</span></label>
             <input type="number" name="carpet" class="ef-input" min="1" value="<?= htmlspecialchars($prop['carpet']) ?>"></div>
          <div class="ef-field"><label>Furnishing</label>
@@ -259,9 +257,9 @@ select.ef-input{cursor:pointer;appearance:none;background-image:url("data:image/
       <div class="ef-row c3">
          <div class="ef-field"><label>Property Age <span class="hint">(years)</span></label>
             <input type="text" name="age" class="ef-input" value="<?= htmlspecialchars($prop['age']) ?>"></div>
-         <div class="ef-field"><label>Total Floors</label>
+         <div class="ef-field"><label>Total Floors <span class="hint">(in the building)</span></label>
             <input type="number" name="total_floors" class="ef-input" min="0" max="99" value="<?= htmlspecialchars($prop['total_floors']) ?>"></div>
-         <div class="ef-field"><label>This Floor</label>
+         <div class="ef-field"><label>Floor Number <span class="hint">(which floor this property is on)</span></label>
             <input type="number" name="room_floor" class="ef-input" min="0" max="99" value="<?= htmlspecialchars($prop['room_floor']) ?>"></div>
       </div>
    </div>

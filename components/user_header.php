@@ -27,8 +27,8 @@ body{font-family:'Inter',sans-serif;}
 .ef-menu a.active{color:#B8935A!important;border-bottom-color:#B8935A;}
 .ef-cta{display:flex;align-items:center;gap:10px;flex-wrap:nowrap;flex-shrink:0;}
 .ef-toggle{width:52px;height:28px;background:rgba(184,147,90,.25);border-radius:14px;position:relative;cursor:pointer;border:1px solid rgba(184,147,90,.4);flex-shrink:0;}
-.ef-toggle::after{content:'';position:absolute;top:2px;left:2px;width:22px;height:22px;background:#B8935A;border-radius:50%;transition:.25s;display:flex;align-items:center;justify-content:center;}
-body.ef-dark .ef-toggle::after{left:26px;background:#fff;}
+.ef-toggle::after{content:'\f186';font-family:'Font Awesome 6 Free';font-weight:900;font-size:11px;color:#0A1628;line-height:22px;text-align:center;position:absolute;top:2px;left:2px;width:22px;height:22px;background:#B8935A;border-radius:50%;transition:.25s;}
+body.ef-dark .ef-toggle::after{left:26px;background:#fff;content:'\f185';color:#B8935A;}
 .ef-btn-outline{padding:10px 20px;border:1.5px solid #B8935A;color:#B8935A!important;border-radius:7px;text-decoration:none!important;font-weight:600;font-size:.88rem;letter-spacing:1.3px;text-transform:uppercase;transition:.2s;white-space:nowrap;line-height:1.2;}
 .ef-btn-outline:hover{background:#B8935A;color:#0A1628!important;}
 .ef-btn-primary{padding:10px 20px;background:#B8935A;color:#0A1628!important;border-radius:7px;text-decoration:none!important;font-weight:700;font-size:.88rem;letter-spacing:1.3px;text-transform:uppercase;transition:.2s;border:1.5px solid #B8935A;white-space:nowrap;line-height:1.2;}
@@ -86,12 +86,15 @@ body.ef-dark input,body.ef-dark select,body.ef-dark textarea{
       <ul class="ef-menu" id="efMenu">
         <li><a href="home.php" class="<?= $cur=='home.php'?'active':'' ?>">Home</a></li>
         <li><a href="listings.php" class="<?= $cur=='listings.php'?'active':'' ?>">Listings</a></li>
+        <?php if(isset($_SESSION['user_id'])): ?>
         <li><a href="post_property.php" class="<?= $cur=='post_property.php'?'active':'' ?>">Post Property</a></li>
         <li><a href="dashboard.php" class="<?= $cur=='dashboard.php'?'active':'' ?>">Dashboard</a></li>
-        <li><a href="admin/login.php" class="<?= strpos($_SERVER['PHP_SELF'],'/admin/')!==false?'active':'' ?>">Admin</a></li>
+        <?php endif; ?>
+        <li><a href="about.php" class="<?= $cur=='about.php'?'active':'' ?>">About</a></li>
+        <li><a href="contact.php" class="<?= $cur=='contact.php'?'active':'' ?>">Contact</a></li>
       </ul>
       <div class="ef-cta">
-        <div class="ef-toggle" onclick="document.body.classList.toggle('ef-dark');localStorage.setItem('efDark',document.body.classList.contains('ef-dark')?'1':'0');"></div>
+        <div class="ef-toggle" title="Switch light / dark mode" onclick="document.body.classList.toggle('ef-dark');localStorage.setItem('efDark',document.body.classList.contains('ef-dark')?'1':'0');"></div>
         <?php if(isset($_SESSION['user_id'])): ?>
           <a href="logout.php" class="ef-btn-outline">Logout</a>
         <?php else: ?>

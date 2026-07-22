@@ -51,9 +51,9 @@ if (isset($_POST['delete_property'])) {
    <div class="container">
 
       <div class="stat-row">
-         <div class="stat-card"><div class="stat-num"><?= $myCount; ?></div><div>Your listings</div></div>
-         <div class="stat-card"><div class="stat-num"><?= $saved_n; ?></div><div>Saved</div></div>
-         <div class="stat-card"><div class="stat-num"><?= $enq->rowCount(); ?></div><div>Enquiries received</div></div>
+         <a href="#my-listings" class="stat-card" style="text-decoration:none;color:inherit;cursor:pointer;"><div class="stat-num"><?= $myCount; ?></div><div>Your listings &rarr;</div></a>
+         <a href="saved.php" class="stat-card" style="text-decoration:none;color:inherit;cursor:pointer;"><div class="stat-num"><?= $saved_n; ?></div><div>Saved &rarr;</div></a>
+         <a href="#my-enquiries" class="stat-card" style="text-decoration:none;color:inherit;cursor:pointer;"><div class="stat-num"><?= $enq->rowCount(); ?></div><div>Enquiries received &rarr;</div></a>
       </div>
 
       <div style="margin:2rem 0;">
@@ -61,7 +61,7 @@ if (isset($_POST['delete_property'])) {
          <a href="saved.php" class="btn-outline">View Saved</a>
       </div>
 
-      <h2 class="section-heading">Your Listings</h2>
+      <h2 class="section-heading" id="my-listings">Your Listings</h2>
       <div class="prop-grid">
       <?php if ($myCount > 0):
          while ($p = $myProps->fetch()): ?>
@@ -89,7 +89,7 @@ if (isset($_POST['delete_property'])) {
       <?php endif; ?>
       </div>
 
-      <h2 class="section-heading" style="margin-top:3rem;">Recent Enquiries</h2>
+      <h2 class="section-heading" id="my-enquiries" style="margin-top:3rem;">Recent Enquiries</h2>
       <?php if ($enq->rowCount() > 0): ?>
       <table class="data-table">
          <thead><tr><th>Property</th><th>From buyer</th><th>Date</th></tr></thead>

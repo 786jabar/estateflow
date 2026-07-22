@@ -220,15 +220,15 @@ select.ef-input{cursor:pointer;appearance:none;background-image:url("data:image/
       </div>
       <div class="ef-row c3" style="margin-bottom:18px;">
          <div class="ef-field"><label>Bedrooms</label>
-            <select name="bedroom" class="ef-input"><?php for($i=0;$i<=9;$i++)echo "<option ".($i==2?'selected':'').">$i</option>";?></select></div>
+            <input type="number" name="bedroom" class="ef-input" value="2" min="0" max="50"></div>
          <div class="ef-field"><label>Bathrooms</label>
-            <select name="bathroom" class="ef-input"><?php for($i=1;$i<=9;$i++)echo "<option ".($i==2?'selected':'').">$i</option>";?></select></div>
+            <input type="number" name="bathroom" class="ef-input" value="2" min="1" max="50"></div>
          <div class="ef-field"><label>Balconies</label>
-            <select name="balcony" class="ef-input"><?php for($i=0;$i<=9;$i++)echo "<option ".($i==1?'selected':'').">$i</option>";?></select></div>
+            <input type="number" name="balcony" class="ef-input" value="1" min="0" max="50"></div>
       </div>
       <div class="ef-row c3" style="margin-bottom:18px;">
-         <div class="ef-field"><label>BHK</label>
-            <select name="bhk" class="ef-input"><?php for($i=1;$i<=9;$i++)echo "<option ".($i==2?'selected':'').">$i</option>";?></select></div>
+         <div class="ef-field"><label>Total Rooms <span class="hint">(bedrooms + living + kitchen)</span></label>
+            <input type="number" name="bhk" class="ef-input" value="2" min="1" max="50"></div>
          <div class="ef-field"><label>Carpet Area <span class="hint">(m²)</span></label>
             <input type="number" name="carpet" class="ef-input" value="150" min="1"></div>
          <div class="ef-field"><label>Furnishing</label>
@@ -237,9 +237,9 @@ select.ef-input{cursor:pointer;appearance:none;background-image:url("data:image/
       <div class="ef-row c3">
          <div class="ef-field"><label>Property Age <span class="hint">(years)</span></label>
             <input type="number" name="age" class="ef-input" value="0" min="0" max="99"></div>
-         <div class="ef-field"><label>Total Floors</label>
+         <div class="ef-field"><label>Total Floors <span class="hint">(in the building)</span></label>
             <input type="number" name="total_floors" class="ef-input" value="1" min="0" max="99"></div>
-         <div class="ef-field"><label>This Floor</label>
+         <div class="ef-field"><label>Floor Number <span class="hint">(which floor this property is on)</span></label>
             <input type="number" name="room_floor" class="ef-input" value="1" min="0" max="99"></div>
       </div>
    </div>

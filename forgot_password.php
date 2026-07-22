@@ -1,5 +1,6 @@
 <?php
 include 'components/connect.php';
+include 'components/mailer.php';
 
 /* If already signed in, no need to reset a password here. */
 if (!empty($_SESSION['user_id'])) {
@@ -56,10 +57,7 @@ if (isset($_POST['submit'])) {
                      . $link . "\n\n"
                      . "If you did not ask for this, you can safely ignore this email.\n\n"
                      . "EstateFlow - Luxury Real Estate, Australia";
-            $headers = "From: EstateFlow <no-reply@estateflow.it.com>\r\n"
-                     . "Content-Type: text/plain; charset=utf-8";
-
-            $sent = @mail($email, $subject, $body, $headers);
+            $sent = ef_send_mail($email, $user['name'], $subject, $body);
 
             /* SECURITY: the reset link is only ever shown on screen when
                running on the local test machine (ESTATEFLOW_LOCAL=1).
@@ -79,7 +77,8 @@ if (isset($_POST['submit'])) {
          if (stripos($msg, "doesn't exist") !== false || stripos($msg, "Base table or view not found") !== false) {
             $errors[] = 'Database error: the "password_resets" table does not exist. Please run the CREATE TABLE statement from DATABASE_SCHEMA.sql in phpMyAdmin.';
          } else {
-            $errors[] = 'Database error: ' . $msg;
+            error_log('EstateFlow forgot_password error: ' . $msg);
+            $errors[] = 'Sorry, something went wrong on our side. Please try again in a few minutes.';
          }
       }
    }
